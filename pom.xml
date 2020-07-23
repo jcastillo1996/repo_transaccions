@@ -42,6 +42,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
@@ -117,7 +121,6 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
-
 					<execution>
 						<id>jacoco-check</id>
 						<goals>
@@ -138,7 +141,6 @@
 							</rules>
 						</configuration>
 					</execution>
-
 				</executions>
 			</plugin>
 		</plugins>
