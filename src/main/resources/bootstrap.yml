@@ -1,6 +1,6 @@
 spring:
   application:
-    name: transaccion-micro 
+    name: transaccion-micro
   cloud:
     config:
       uri: http://localhost:8085
