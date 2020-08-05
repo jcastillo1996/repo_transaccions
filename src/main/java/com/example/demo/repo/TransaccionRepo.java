@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import com.example.demo.model.Transaccion;
 
-public interface ITransaccionRepo extends ReactiveMongoRepository<Transaccion, Long> {
+public interface TransaccionRepo extends ReactiveMongoRepository<Transaccion, Long> {
 
 }

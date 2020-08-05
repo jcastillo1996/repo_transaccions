@@ -1,8 +1,5 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Document(collection = "transaccions")
+@Document(collection = "transaccion_type")
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,13 +21,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Transaccion {
-
+public class TransaccionType {
 	@Id
-	private Long transaccionId;
-	private LocalDateTime transaccionDate;
-	private Long productId;
-	private TransaccionType transaccionType;
-	private Double transaccionAmount;
+	private Long idType;
+
+	private String nameType;
 
 }

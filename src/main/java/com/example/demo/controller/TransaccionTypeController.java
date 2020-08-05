@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,56 +13,41 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.demo.model.Transaccion;
-import com.example.demo.service.impl.TransaccionServiceImpl;
-import com.example.demo.webclient.WebClientProduct;
-import com.example.demo.webclient.dto.ProductDTO;
+import com.example.demo.model.TransaccionType;
+import com.example.demo.service.impl.TransaccionTypeServiceImpl;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api_transaccion")
-public class TransaccionController {
+@RequestMapping("/api_transasccion_type")
+public class TransaccionTypeController {
 	
 	@Autowired
-	TransaccionServiceImpl service;
-	
-	@Autowired
-	WebClientProduct webclient;
+	TransaccionTypeServiceImpl service;
 	
 	@GetMapping
-	public Flux<Transaccion> findAll() {
+	public Flux<TransaccionType> findAll() {
 
 		return service.findAll();
 	}
-	
-	@GetMapping("/test")
-	public Flux<ProductDTO> testtt() {
 
-		return webclient.getAllProducts();
-	}
-	@GetMapping("/test/{id}")
-	public Mono<ProductDTO> testtt1(@PathVariable Long id) {
-
-		return webclient.getClientById(id);
-	}
 	@GetMapping("/{id}")
-	public Mono<Transaccion> findById(@PathVariable(name = "id") Long id) {
+	public Mono<TransaccionType> findById(@PathVariable(name = "id") Long id) {
 		return service.findById(id).switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,"TRANSACCION NOT FOUND ID: "+id)));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Transaccion> save(@RequestBody  Transaccion transaccion) {
-		transaccion.setTransaccionDate(LocalDateTime.now());
-		return service.save(transaccion);
+	public Mono<TransaccionType> save(@RequestBody  TransaccionType type) {
+		
+		return service.save(type);
 	}
 
 	@PutMapping
-	public Mono<Transaccion> update(@RequestBody(required = true) Transaccion transaccion) {
+	public Mono<TransaccionType> update(@RequestBody(required = true) TransaccionType type) {
 		
-		return service.update(transaccion);
+		return service.update(type);
 	}
 
 	@DeleteMapping("/{id}")
@@ -79,3 +63,4 @@ public class TransaccionController {
 	}
 
 }
+
