@@ -4,4 +4,7 @@ import com.example.demo.model.Transaccion;
 
 public interface TransaccionService extends ICRUD<Transaccion, Long> {
 
+	
+	
+	
 }

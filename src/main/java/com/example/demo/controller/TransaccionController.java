@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.model.Transaccion;
 import com.example.demo.service.impl.TransaccionServiceImpl;
-import com.example.demo.webclient.WebClientProduct;
 import com.example.demo.webclient.dto.ProductDTO;
 
 import reactor.core.publisher.Flux;
@@ -29,8 +28,6 @@ public class TransaccionController {
 	@Autowired
 	TransaccionServiceImpl service;
 	
-	@Autowired
-	WebClientProduct webclient;
 	
 	@GetMapping
 	public Flux<Transaccion> findAll() {
@@ -41,12 +38,17 @@ public class TransaccionController {
 	@GetMapping("/test")
 	public Flux<ProductDTO> testtt() {
 
-		return webclient.getAllProducts();
+		return service.findAllProducts();
 	}
 	@GetMapping("/test/{id}")
 	public Mono<ProductDTO> testtt1(@PathVariable Long id) {
 
-		return webclient.getClientById(id);
+		return service.findByIdProduct(id);
+	}
+	@PostMapping("/test/")
+	public Mono<ProductDTO> te(@RequestBody ProductDTO prod) {
+
+		return service.updateProduct(prod);
 	}
 	@GetMapping("/{id}")
 	public Mono<Transaccion> findById(@PathVariable(name = "id") Long id) {
@@ -55,7 +57,23 @@ public class TransaccionController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Mono<Transaccion> save(@RequestBody  Transaccion transaccion) {
+	public Mono<?> save(@RequestBody  Transaccion transaccion) {
+		
+		service.findByIdProduct(transaccion.getProductId())
+		.flatMap(prod->{
+			String prodType=prod.getProductType().getTypeName();
+			if (prodType.equals("CUENTA")) {
+				String typeTransac=transaccion.getTransaccionType().getNameType();
+				if (typeTransac.equals("DEPOSITO")) {
+					
+				}else if (typeTransac.equals("RETIRO")) {
+					
+				}
+			}else if (prodType.equals("CREDITO")) {
+				
+			}
+			return Mono.just(prod);
+		});
 		transaccion.setTransaccionDate(LocalDateTime.now());
 		return service.save(transaccion);
 	}
