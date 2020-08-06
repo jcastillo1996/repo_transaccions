@@ -22,7 +22,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @Setter
-public class ProductDTO {
+public class Product {
 
 	@Id
 	private Long idProduct;

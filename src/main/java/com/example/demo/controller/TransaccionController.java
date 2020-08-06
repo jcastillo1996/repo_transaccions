@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.model.Transaccion;
 import com.example.demo.service.impl.TransaccionServiceImpl;
-import com.example.demo.webclient.dto.ProductDTO;
+import com.example.demo.webclient.dto.Product;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -31,26 +31,18 @@ public class TransaccionController {
 
 	@GetMapping
 	public Flux<Transaccion> findAll() {
-
 		return service.findAll();
 	}
 
 	@GetMapping("/test")
-	public Flux<ProductDTO> testtt() {
+	public Flux<Product> test(@RequestBody Product prod) {
+
+		service.updateProduct(prod).flatMap(pr -> {
+			return Mono.just(pr);
+		}).subscribe();
+		;
 
 		return service.findAllProducts();
-	}
-
-	@GetMapping("/test/{id}")
-	public Mono<ProductDTO> testtt1(@PathVariable Long id) {
-
-		return service.findByIdProduct(id);
-	}
-
-	@PostMapping("/test/")
-	public Mono<ProductDTO> te(@RequestBody ProductDTO prod) {
-
-		return service.updateProduct(prod);
 	}
 
 	@GetMapping("/{id}")
@@ -68,14 +60,16 @@ public class TransaccionController {
 			if (prodType.equals("CUENTA")) {
 				String typeTransac = transaccion.getTransaccionType().getNameType();
 				if (typeTransac.equals("DEPOSITO")) {
-
+					// Aumenta
+					prod.setMount(prod.getMount()+transaccion.getTransaccionAmount());
 				} else if (typeTransac.equals("RETIRO")) {
-
+					// Disminuye
+					prod.setMount(prod.getMount()-transaccion.getTransaccionAmount());
 				}
 			} else if (prodType.equals("CREDITO")) {
 
 			}
-			return Mono.just(prod);
+			return service.updateProduct(prod);
 		});
 
 	}
